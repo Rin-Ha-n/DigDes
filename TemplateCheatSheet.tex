@@ -1,0 +1,50 @@
+
+% ========================================= TEMPLATE INFO =========================================
+%
+% Author:       Rin-Ha-n
+% Version:      1.0
+% Last updated: 2025-05-15
+% Brief:        A LaTeX template for summaries. See README.md for more information.
+% Inspired by:  https://gitlab.com/sstitz, https://github.com/FabianSuter, https://github.com/OST-Stud
+
+% ================================================================================================
+\documentclass[8pt, a4paper, twoside, landscape]{extarticle}
+% Font size:    8pt
+% Paper size:   A4
+% style:        twoside (needed, so odd and even pages have different margins)
+% orientation:  portrait. (use 'landscape' for landscape orientation)
+
+
+
+% ========================================= DOCUMENT INFO =========================================
+\def\title{CheatSheet Teamplate}						% title
+\def\shorttitle{TChSh}                              	% short title (displayed as PDF title)
+\def\dozent{Prof. Dr. XX. XX.} 				            % lecturer
+\def\semester{SS 2025}								    % semester
+\def\author{Ricca Aaron}                           	    % author(s)
+\def\repo{https://github.com/Rin-Ha-n/LateXCheatsheet}	% repository link
+\def\version{1.0\today}                            	% version
+\def\pagelimit{4}                                   	% page limit -> causes pages after limit to be red
+\def\titleoption{ultra compact}                         % options: ultra compact, compact, normal
+\def\enableToC{false}                                   % enable table of contents (true/false)        
+
+\def\sectioncolor{green}                                % section color   (Used green because as shown in psycology studies it calms you) 
+\def\subsectioncolor{green}                             % subsection color
+\def\subsubsectioncolor{green}                          % subsubsection color
+
+% ================================= PACKAGES, SETUP AND COMMANDS ==================================
+\input{preamble.tex} % Used to include minimum required packages and settings
+
+% =========================================== DOCUMENT ============================================
+\begin{document}
+    \begin{multicols}{3}
+        \raggedcolumns
+        \cheatsheettitle
+       I'm after the cheatsheet title but you may use the \verb!\input! command to include other files
+       and hereś the school logo:
+        \begin{center}
+            \includegraphics[width=0.5\columnwidth]{Images/OSTLogo.png}
+        \end{center}
+        \input{section/chapter_01.tex} % Include the first chapter
+    \end{multicols}
+\end{document}

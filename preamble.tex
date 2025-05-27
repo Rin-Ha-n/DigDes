@@ -1,0 +1,134 @@
+% ================================================================================================
+%                                   PREAMBLE FOR CHEATSHEET
+% ================================================================================================
+% This file sets up all packages and commands needed for the cheatsheet template.
+% Only essential packages and the title block command are included.
+% ================================================================================================
+
+% --------------------------------- ONLY FOR TESTING ----------------------------------------------
+\usepackage{lipsum} % For generating dummy text
+
+% --------------------------------- School required package -------------------------------------------
+\usepackage{oststud} % Package from the OST school
+\usepackage{xcolor} % Color package needed for the oststud package
+
+% --------------------------------- ENCODING AND FONTS -------------------------------------------
+\usepackage[T1]{fontenc}         % T1 font encoding for better output
+\usepackage{times}               % Times font for main text
+\usepackage{inconsolata}         % Inconsolata font for monospaced text
+\usepackage[main=english]{babel} % English language/hyphenation
+
+% --------------------------------- PAGE LAYOUT --------------------------------------------------
+\usepackage{multicol}            % Support for multi-column layouts
+\setlength{\columnseprule}{0.4pt} % Thickness of the vertical line between columns
+\usepackage{geometry}            % Flexible page geometry
+\geometry{left=3mm, right=3mm, top=3mm, bottom=6mm} % Custom margins
+
+% --------------------------------- MATH & SYMBOLS -----------------------------------------------
+\usepackage{amsmath, amssymb, mathtools, bm} % Math packages
+
+% --------------------------------- GRAPHICS & COLORS --------------------------------------------
+\usepackage{graphicx}            % Include images
+\usepackage{scalerel}            % Scale symbols relative to text
+\usepackage{tikz}                % Drawing and diagrams
+
+% Prevent section titles from breaking columns
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+
+% --------------------------------- LINKS & QR CODES ---------------------------------------------
+\usepackage{hyperref}            % Hyperlinks in PDF
+\usepackage{qrcode}              % Generate QR codes
+
+% --------------------------------- CODE LISTINGS ------------------------------------------------
+\usepackage{listings}            % Code formatting
+
+% Prevent section and subsection titles from breaking columns in multicols
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\section}{\if@col@number \ifnum \col@number >\@ne \columnbreak\fi\fi}{}{}{}
+\patchcmd{\subsection}{\if@col@number \ifnum \col@number >\@ne \columnbreak\fi\fi}{}{}{}
+\patchcmd{\subsubsection}{\if@col@number \ifnum \col@number >\@ne \columnbreak\fi\fi}{}{}{}
+\makeatother
+
+% --------------------------------- TITLE BLOCK COMMAND ------------------------------------------
+% This command creates the title block with QR code, version, title, semester, lecturer, authors, and repo link.
+\newcommand{\cheatsheettitle}{%
+    \begin{minipage}[t]{0.2\columnwidth}
+        \vspace{-0.225\columnwidth}
+        \qrcode[level=L, version=0, height=0.9\columnwidth]{\repo}\\[1mm]
+        \normalfont\footnotesize V \version{} \hspace{1em}
+        \smallskip
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.79\columnwidth}
+        \raggedright%
+        \normalfont\Huge\bfseries\title{}\\[1mm]
+        \normalfont\Large\semester\ --\ \dozent{}\\
+        \large Autoren:\ \author{}\\[1mm]
+        \normalsize\url{\repo}
+    \end{minipage}
+}
+
+% --------------------------------------- DOCUMENT SETTINGS ---------------------------------------
+\hypersetup{hidelinks,
+% set pdf metadata
+            pdfauthor={\author},
+            pdftitle={\shorttitle},
+            pdfsubject={\title\ \semester},
+            pdfkeywords={Gahn go lerne!!}}
+
+% set style for URLs
+\urlstyle{same} % sets url font to the same as the preceeding text
+
+% set page layout
+\geometry{left=3mm, 
+          right=3mm, 
+          top=3mm, 
+          bottom=6mm, 
+          headheight=0mm, 
+          headsep=0mm, 
+          footskip=4mm,
+        %   showframe,
+          }
+
+\setlength{\columnsep}{1.5mm}       % distance between columns
+\setlength{\columnseprule}{0.1pt}   % thickness of column separation line
+\setlength{\parindent}{0pt}         % no paragraph indentation
+
+\setcounter{tocdepth}{2}            % only display sections and subsections in toc
+
+
+% --------------------------------- SECTION HEADER COLORS -----------------------------------------------
+\newcommand{\coloredsection}[1]{%
+  \colorbox{\sectioncolor!60}{\parbox{\dimexpr\linewidth-2\fboxsep}{\thesection\ #1}}}
+
+\newcommand{\coloredsubsection}[1]{%
+  \colorbox{\subsectioncolor!40}{\parbox{\dimexpr\linewidth-2\fboxsep}{\thesubsection\ #1}}}
+
+\newcommand{\coloredsubsubsection}[1]{%
+  \colorbox{\subsubsectioncolor!20}{\parbox{\dimexpr\linewidth-2\fboxsep}{\thesubsubsection\ #1}}}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {}
+  {0pt}
+  {\coloredsection}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {}
+  {0pt}
+  {\coloredsubsection}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}
+  {}
+  {0pt}
+  {\coloredsubsubsection}
+
+
+% ================================================================================================
+%                                   END OF PREAMBLE
+% ================================================================================================

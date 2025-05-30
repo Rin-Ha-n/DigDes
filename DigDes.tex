@@ -3,9 +3,8 @@
 %
 % Author:       Rin-Ha-n
 % Version:      1.0
-% Last updated: 2025-05-15
-% Brief:        A LaTeX template for summaries. See README.md for more information.
-% Inspired by:  https://gitlab.com/sstitz, https://github.com/FabianSuter, https://github.com/OST-Stud
+% Last updated: 2025-05-20
+% Brief:        A cheatSheet for the module DigDes (Digital Design) at OST FS25
 
 % ================================================================================================
 \documentclass[8pt, a4paper, twoside, landscape]{extarticle}
@@ -17,13 +16,13 @@
 
 
 % ========================================= DOCUMENT INFO =========================================
-\def\title{CheatSheet Teamplate}						% title
-\def\shorttitle{TChSh}                              	% short title (displayed as PDF title)
-\def\dozent{Prof. Dr. XX. XX.} 				            % lecturer
-\def\semester{SS 2025}								    % semester
+\def\title{CheatSheet Digital Design}   	     		% title
+\def\shorttitle{DigDes}                              	% short title (displayed as PDF title)
+\def\dozent{Prof. Dr. Paul Zbinden}                     % lecturer
+\def\semester{Fs 2025}								    % semester
 \def\author{Ricca Aaron}                           	    % author(s)
-\def\repo{https://github.com/Rin-Ha-n/LateXCheatsheet}	% repository link
-\def\version{1.0\today}                            	% version
+\def\repo{https://github.com/Rin-Ha-n/DigDes}       	% repository link
+\def\version{1.0\today}                              	% version
 \def\pagelimit{4}                                   	% page limit -> causes pages after limit to be red
 \def\titleoption{ultra compact}                         % options: ultra compact, compact, normal
 \def\enableToC{false}                                   % enable table of contents (true/false)        
@@ -40,11 +39,6 @@
     \begin{multicols}{3}
         \raggedcolumns
         \cheatsheettitle
-       I'm after the cheatsheet title but you may use the \verb!\input! command to include other files
-       and hereś the school logo:
-        \begin{center}
-            \includegraphics[width=0.5\columnwidth]{Images/OSTLogo.png}
-        \end{center}
         \input{section/chapter_01.tex} % Include the first chapter
     \end{multicols}
 \end{document}

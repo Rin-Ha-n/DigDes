@@ -34,6 +34,31 @@
 % ================================= PACKAGES, SETUP AND COMMANDS ==================================
 \input{preamble.tex} % Used to include minimum required packages and settings
 
+% ---------------------------------- Code Block Color ----------------------------------------------
+\lstdefinelanguage{VHDL}{
+  morekeywords={architecture,begin,block,case,component,configuration,else,elsif,end,entity,for,function,generate,if,is,loop,package,port,process,return,signal,then,type,use,variable,wait,when,while,with,library,assert,report,after,until,others,all,constant,procedure,of,downto,to,in,out,inout,buffer,linkage,guarded,open,range,record,select,transport,reject,units,group,file,access,shared,new,next,null,exit,abs,not,and,or,xor,nand,nor,sll,srl,sla,sra,rol,ror},
+  sensitive=true,
+  morecomment=[l]--,
+  morestring=[b]",
+  morestring=[b]'
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{violet}\bfseries,
+  commentstyle=\color{OSTDarkGreen}\itshape,
+  stringstyle=\color{orange},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  frame=none,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  captionpos=b
+}
+
 % =========================================== DOCUMENT ============================================
 \begin{document}
     \begin{multicols}{3}

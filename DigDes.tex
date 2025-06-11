@@ -1,4 +1,3 @@
-
 % ========================================= TEMPLATE INFO =========================================
 %
 % Author:       Rin-Ha-n
@@ -34,7 +33,7 @@
 % ================================= PACKAGES, SETUP AND COMMANDS ==================================
 \input{preamble.tex} % Used to include minimum required packages and settings
 
-% ---------------------------------- Code Block Color ----------------------------------------------
+% ---------------------------------- Code Block word Color ----------------------------------------------
 \lstdefinelanguage{VHDL}{
   morekeywords={architecture,begin,block,case,component,configuration,else,elsif,end,entity,for,function,generate,if,is,loop,package,port,process,return,signal,then,type,use,variable,wait,when,while,with,library,assert,report,after,until,others,all,constant,procedure,of,downto,to,in,out,inout,buffer,linkage,guarded,open,range,record,select,transport,reject,units,group,file,access,shared,new,next,null,exit,abs,not,and,or,xor,nand,nor,sll,srl,sla,sra,rol,ror},
   sensitive=true,
@@ -51,7 +50,8 @@
   numbers=left,
   numberstyle=\tiny\color{gray},
   stepnumber=1,
-  numbersep=5pt,
+  numbersep=0pt,         % no space between numbers and code
+  xleftmargin=1.5em,     % indent code block to keep numbers inside column
   frame=none,
   breaklines=true,
   showstringspaces=false,
@@ -59,11 +59,28 @@
   captionpos=b
 }
 
+% ---------------------------------- Code Block lines number Color ----------------------------------------------
+\makeatletter
+\newcommand{\highlightlines}[4]{% #1=start, #2=end, #3=color, #4=number
+  \ifnum\value{lstnumber}<#1 %
+    #4%
+  \else
+    \ifnum\value{lstnumber}>#2 %
+      #4%
+    \else
+      \colorbox{#3}{#4}%
+    \fi
+  \fi
+}
+\makeatother
+
 % =========================================== DOCUMENT ============================================
 \begin{document}
     \begin{multicols}{3}
         \raggedcolumns
         \cheatsheettitle
-        \input{section/chapter_01.tex} % Include the first chapter
+        \input{section/SceltaCaratteristicheComponenti.tex}
+        \input{section/StateMachine.tex}
+        \input{section/ProgrammazioneVHDL.tex}
     \end{multicols}
 \end{document}

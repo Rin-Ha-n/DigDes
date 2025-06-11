@@ -1,0 +1,87 @@
+\section{Programmazione VHDL}
+% =========================================== ENTITY =========================================
+    \subsection{entity}
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
+            entity <entity name> is
+                port (
+                    {<port_name> : <mode> <type>;}
+                );
+            end entity <entity name>;
+
+            mode = in | out | inout | buffer
+        \end{lstlisting}
+
+% =========================================== ARCHITECTURE ======================================
+    \subsection{architecture}
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3}{6}{yellow}]
+            architecture <architecture_type> of <entity_name> is
+                [type_declaration]
+                    [subtype_declaration]
+                    [constant_declaration]
+                    [signal_declaration]
+                    [component_declaration]
+            begin
+                -- codice di architettura
+            end <architecture_type>;
+
+            architecture_type = Behavioral | Structural | RTL | Dataflow | Tb
+        \end{lstlisting}
+
+% ----------------------------------------ARCHITECTURE TYPES ------------------------------------
+        \subsubsection{Tipi di architettura}
+            Behavioral: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica.
+            \begin{lstlisting}[language=VHDL]
+                if rising_edge(clk) then
+                    if A = '1' then
+                    Y <= B;
+                    end if;
+                end if;
+                \end{lstlisting}
+
+
+            Structural: si occupa di descrivere la struttura fisica del circuito, utilizzando componenti e connessioni tra di essi.
+            \begin{lstlisting}[language=VHDL]
+                U1: and_gate port map (A => A, B => B, Y => Y1);
+                U2: or_gate  port map (A =1, B => C, Y => Y);
+                \end{lstlisting}
+
+
+            RTL: si occupa di descrivere il circuito a livello di registro e logica combinatoria, utilizzando registri e porte logiche.
+            \begin{lstlisting}[language=VHDL]
+                if rising_edge(clk) then
+                    reg1 <= A and B;
+                    reg2 <= reg1 xor C;
+                end if;
+                \end{lstlisting}
+
+
+            Dataflow: si occupa di descrivere il circuito a livello di flusso di dati, utilizzando porte logiche e segnali.
+            \begin{lstlisting}[language=VHDL]
+                Y <= (A and B) or (not C);
+                \end{lstlisting}
+
+
+            Tb: si occupa di descrivere il circuito a livello di testbench, utilizzando segnali di test e componenti di test.
+            \begin{lstlisting}[language=VHDL]
+                A <= '0'; wait for 10 ns;
+                A <= '1'; wait for 10 ns;
+                assert (Y = expected_value) report "Test failed" severity error;
+                \end{lstlisting}
+
+% ==================================== CODICE SCHELETRO FSM ====================================
+    \subsection{Codice scheletro FSM (f,g,z)}
+
+% ========================================= PROCESSI =========================================
+    \subsection{Processi}
+        I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile cambia di stato.
+        % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3}{7}{yellow}]
+        process ((*@\textcolor{red}{clk, reset}@*))
+            begin
+                if reset = '1' then
+                    -- codice di reset
+                elsif rising_edge(clk) then
+                    -- codice di clock
+                end if;
+            end process;
+        \end{lstlisting}

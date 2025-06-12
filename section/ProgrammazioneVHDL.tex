@@ -1,4 +1,17 @@
 \section{Programmazione VHDL}
+% =========================================== LIBRARY =========================================
+    \subsection{Library}
+        Una libreria puo contenere componenti e o pachetti. I componenti sono descrizione di circuiti e realizzazione specifiche,
+        vengono memorizzati nella libreria in modo da poter essere riutilizati piu volte e da piu progettisti contemporaneamente.\\
+        I blocchi di codice di una libreria sono memorizzati in forma compilata, direttamente eseguibile.\\
+        Contenuto di una libreria: Components, Packages, Functions, Procedures, Declarations.
+        \begin{lstlisting}[language=VHDL]
+            library ieee; 
+            use ieee.std_logic_1164.all; -- CPP: using namespace std;
+            use ieee.numeric_std.all; -- Solo per operazioni aritmetiche per vettori
+        \end{lstlisting}
+
+
 % =========================================== ENTITY =========================================
     \subsection{entity}
         \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
@@ -62,7 +75,7 @@
         
 
 
-% ----------------------------------------ARCHITECTURE TYPES ------------------------------------
+% ---------------------------------------- <ARCHITECTURE TYPES> ------------------------------------
         \subsubsection{\texttt{<architecture\_type>}}
             \textbf{Behavioral}: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica.
             \begin{lstlisting}[language=VHDL]
@@ -99,15 +112,40 @@
                 assert (Y = expected_value) report "Test failed" severity error;
             \end{lstlisting}
 
-% ----------------------------------------MODE TYPES ------------------------------------
+% ---------------------------------------- <TYPES> ------------------------------------
         \subsubsection{\texttt{<type>}}
-               \begin{itemize}
-                \item \texttt{bit}: rappresenta un singolo bit, con valori \texttt{'0'} e \texttt{'1'}.
-                \item \texttt{bit\_vector}: rappresenta un vettore di bit, con valori \texttt{'0'} e \texttt{'1'}.
-                \item \texttt{std\_logic}: rappresenta un singolo bit con valori \texttt{'0'}, \texttt{'1'}.
-                \item \texttt{std\_logic\_vector}: rappresenta un vettore di std\_logic, con valori \texttt{'0'}, \texttt{'1'}.
-                \item \texttt{std\_ulogic}: rappresenta un singolo bit con valori \texttt{'0'}, \texttt{'1'}, \texttt{'Z'} (alta impedenza) e \texttt{'X'} (indeterminato).
-                \item \texttt{std\_ulogic\_vector}: rappresenta un vettore di std\_ulogic, con valori \texttt{'0'}, \texttt{'1'}, \texttt{'Z'} e \texttt{'X'}.
-                \item \texttt{integer}: rappresenta un numero intero, con valori compresi tra $-2^{31}$ e $2^{31}-1$.
-                \item \texttt{boolean}: rappresenta un valore booleano, con valori \texttt{true} e \texttt{false}.
-               \end{itemize} 
+        \begin{itemize}
+        \setlength\itemsep{0pt}
+            \item \texttt{bit}: rappresenta un singolo bit, con valori \texttt{'0'} e \texttt{'1'}.
+            \begin{lstlisting}[language=VHDL]
+                signal A : bit;
+            \end{lstlisting}
+            \item \texttt{bit\_vector}: rappresenta un vettore di bit, con valori \texttt{'0'} e \texttt{'1'}.
+            \begin{lstlisting}[language=VHDL]
+                signal B : bit_vector(7 downto 0); -- vettore di 8 bit
+            \end{lstlisting}
+            \item \texttt{std\_logic}: rappresenta un singolo bit con valori \texttt{'0'}, \texttt{'1'}.
+            \begin{lstlisting}[language=VHDL]
+                signal C : std_logic;
+            \end{lstlisting}
+            \item \texttt{std\_logic\_vector}: rappresenta un vettore di std\_logic, con valori \texttt{'0'}, \texttt{'1'}.
+            \begin{lstlisting}[language=VHDL]
+                signal D : std_logic_vector(7 downto 0);
+            \end{lstlisting}
+            \item \texttt{std\_ulogic}: rappresenta un singolo bit con valori \texttt{'0'}, \texttt{'1'}, \texttt{'Z'} (alta impedenza) e \texttt{'X'} (indeterminato).
+            \begin{lstlisting}[language=VHDL]
+                signal E : std_ulogic;
+            \end{lstlisting}
+            \item \texttt{std\_ulogic\_vector}: rappresenta un vettore di std\_ulogic, con valori \texttt{'0'}, \texttt{'1'}, \texttt{'Z'} e \texttt{'X'}.
+            \begin{lstlisting}[language=VHDL]
+                signal F : std_ulogic_vector(7 downto 0);
+            \end{lstlisting}
+            \item \texttt{integer}: rappresenta un numero intero, con valori compresi tra $-2^{31}$ e $2^{31}-1$ (è necessario definire l'intervallo di utilizzo).
+            \begin{lstlisting}[language=VHDL]
+                signal G : integer range 0 to 255; -- intervallo di utilizzo
+            \end{lstlisting}
+            \item \texttt{boolean}: rappresenta un valore booleano, con valori \texttt{true} e \texttt{false}.
+            \begin{lstlisting}[language=VHDL]
+                signal H : boolean; -- true or false
+            \end{lstlisting}
+        \end{itemize}

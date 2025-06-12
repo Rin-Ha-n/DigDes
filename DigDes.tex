@@ -6,7 +6,7 @@
 % Brief:        A cheatSheet for the module DigDes (Digital Design) at OST FS25
 
 % ================================================================================================
-\documentclass[8pt, a4paper, twoside, landscape]{extarticle}
+\documentclass[a4paper,landscape,8pt]{extarticle}
 % Font size:    8pt
 % Paper size:   A4
 % style:        twoside (needed, so odd and even pages have different margins)
@@ -43,20 +43,22 @@
 }
 
 \lstset{
-  basicstyle=\ttfamily\small,
+  basicstyle=\ttfamily\footnotesize,
   keywordstyle=\color{violet}\bfseries,
   commentstyle=\color{OSTDarkGreen}\itshape,
   stringstyle=\color{orange},
   numbers=left,
   numberstyle=\tiny\color{gray},
   stepnumber=1,
-  numbersep=0pt,         % no space between numbers and code
+  numbersep=2pt,         % no space between numbers and code
   xleftmargin=1.5em,     % indent code block to keep numbers inside column
-  frame=none,
+  framexleftmargin=0pt,
   breaklines=true,
   showstringspaces=false,
   tabsize=2,
-  captionpos=b
+  aboveskip=0pt,
+  belowskip=0pt,
+  resetmargins=true
 }
 
 % ---------------------------------- Code Block lines number Color ----------------------------------------------

@@ -68,38 +68,38 @@
     \subsection{Codice scheletro FSM (G,Z,F)}
         \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
 
-            G: process(present_state, inputs)
-            begin
-                next_state <= de fault_state;
-                    case present_state is
-                        when X_state =>
-                            next_state <= Y_state;
-                        when others =>
-                            next_state <= R_state;
-                end case;
-            end process;
+G: process(present_state, inputs)
+begin
+    next_state <= de fault_state;
+        case present_state is
+            when X_state =>
+                next_state <= Y_state;
+            when others =>
+                next_state <= R_state;
+    end case;
+end process;
 
-            Z: process(clk)
-            begin
-                if clk(*@'@*)event and clk = '1' then
-                    if reset = '1' then
-                        present_state <= reset_state;
-                    else
-                        present_state <= next_state;
-                    end if;
-                end if;
-            end process;
+Z: process(clk)
+begin
+    if clk(*@'@*)event and clk = '1' then
+        if reset = '1' then
+            present_state <= reset_state;
+        else
+            present_state <= next_state;
+        end if;
+    end if;
+end process;
 
-            F: process(present_state, …)
-            begin
-                oup <= default_value;
-                case present_state is
-                    when X_state =>
-                        oup <= "1001";
-                    when others =>
-                        oup <= "1111";
-                end case;
-            end process;
+F: process(present_state, …)
+begin
+    oup <= default_value;
+    case present_state is
+        when X_state =>
+            oup <= "1001";
+        when others =>
+            oup <= "1111";
+    end case;
+end process;
 
         \end{lstlisting}
 

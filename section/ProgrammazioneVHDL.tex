@@ -13,6 +13,8 @@
 
 
 % =========================================== ENTITY =========================================
+    L'entità descrive il componente del progetto.
+    In primo luogo l'entità descrive l'interfaccia (schnittstelle) del componente.
     \subsection{entity}
         \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
             entity <entity name> is
@@ -23,8 +25,9 @@
         \end{lstlisting}
 
 % =========================================== ARCHITECTURE ======================================
+    L'architettura descrive il comportamento del componente, come funziona e come è realizzato.
     \subsection{architecture}
-        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3}{6}{yellow}]
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{1,7,8,9}{green}]
             architecture <architecture_type> of <entity_name> is
                 [type_declaration]
                     [subtype_declaration]
@@ -35,6 +38,50 @@
                 -- codice di architettura
             end <architecture_type>;
         \end{lstlisting}
+
+        
+% =========================================== PORT MAPPING ======================================
+        \subsection{Port mapping}
+            Il port mapping è utilizzato per collegare le porte dell'entità con i segnali dell'architettura.
+            \begin{lstlisting}[language=VHDL]
+                U1: entity_name
+                    port map (
+                        <port_name> => <signal_name>,
+                        <port_name> => <signal_name>
+                    );
+            \end{lstlisting}
+
+% ---------------------------------------- EXAMPLE ------------------------------------
+            \subsubsection{Esempio}
+            \begin{lstlisting}[language=VHDL, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,19,20,21,22,23,24}{yellow}, numberstyle=\tiny\color{gray}\highlightlines{10,11,12,13,26,27}{green}]
+                architecture structural of half_adder is
+                    component xor2
+                        port (
+                            in1, in2 : in bit;
+                            oup      : out bit
+                        );
+                    end component;
+
+                    component and2
+                        port (
+                            in1, in2 : in bit;
+                            oup      : out bit
+                        );
+                    end component;
+
+                    begin
+                    -- instantiation of ocmponents XOR2 and AND2
+                    -- Mappatura esplicita
+                    U1 : xor2
+                        port map (
+                            in1 => q,
+                            in2 => p,
+                            oup  => s
+                        );
+                    -- Mappatura implicita
+                    U2 : and2
+                        port map (p, q, s) -- L'ordine delle porte segue quello della dichiarazione del componente!
+            \end{lstlisting}
 
 
 % ========================================= COMPONENTI =========================================
@@ -53,7 +100,7 @@
     \subsection{Processi}
         I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile cambia di stato.
         % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
-        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3}{7}{yellow}]
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,7}{green}]
         process ((*@\textcolor{red}{clk, reset}@*))
             begin
                 if reset = '1' then
@@ -77,7 +124,7 @@
 
 % ---------------------------------------- <ARCHITECTURE TYPES> ------------------------------------
         \subsubsection{\texttt{<architecture\_type>}}
-            \textbf{Behavioral}: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica.
+            \textbf{Behavioral}: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica. Alto livello di astrazione.
             \begin{lstlisting}[language=VHDL]
                 if rising_edge(clk) then
                     if A = '1' then
@@ -86,13 +133,13 @@
                 end if;
             \end{lstlisting}
 
-            \textbf{Structural}: si occupa di descrivere la struttura fisica del circuito, utilizzando componenti e connessioni tra di essi.
+            \textbf{Structural}: si occupa di descrivere la struttura fisica del circuito, utilizzando componenti e connessioni tra di essi. Medio livello di astrazione.
             \begin{lstlisting}[language=VHDL]
                 U1: and_gate port map (A => A, B => B, Y => Y1);
                 U2: or_gate  port map (A =1, B => C, Y => Y);
             \end{lstlisting}
 
-            \textbf{RTL}: si occupa di descrivere il circuito a livello di registro e logica combinatoria, utilizzando registri e porte logiche.
+            \textbf{RTL}: si occupa di descrivere il circuito a livello di registro e logica combinatoria, utilizzando registri e porte logiche. Basso livello di astrazione.
             \begin{lstlisting}[language=VHDL]
                 if rising_edge(clk) then
                     reg1 <= A and B;
@@ -100,7 +147,7 @@
                 end if;
             \end{lstlisting}
 
-            \textbf{Dataflow}: si occupa di descrivere il circuito a livello di flusso di dati, utilizzando porte logiche e segnali.
+            \textbf{Dataflow}: si occupa di descrivere il circuito a livello di flusso di dati, utilizzando porte logiche e segnali. Basso livello di astrazione.
             \begin{lstlisting}[language=VHDL]
                 Y <= (A and B) or (not C);
             \end{lstlisting}

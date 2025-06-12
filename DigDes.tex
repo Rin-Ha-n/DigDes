@@ -62,16 +62,28 @@
 }
 
 % ---------------------------------- Code Block lines number Color ----------------------------------------------
+\usepackage{xparse}
+\usepackage{xstring}
+\usepackage{etoolbox}
 \makeatletter
-\newcommand{\highlightlines}[4]{% #1=start, #2=end, #3=color, #4=number
-  \ifnum\value{lstnumber}<#1 %
-    #4%
-  \else
-    \ifnum\value{lstnumber}>#2 %
-      #4%
-    \else
-      \colorbox{#3}{#4}%
+\NewDocumentCommand{\highlightlines}{mmm}{%
+  \StrCut{#1}{,}{\FirstLine}{\RestLines}%
+  \def\@tempa{#1}%
+  \edef\@tempb{\number\value{lstnumber}}%
+  \def\found{0}%
+  \renewcommand{\do}[1]{%
+    \ifnum\pdfstrcmp{\@tempb}{##1}=0
+      \def\found{1}%
     \fi
+  }%
+  \docsvlist{#1}%
+  \ifnum\found=1
+    \begingroup
+      \setlength{\fboxsep}{0pt}%
+      \colorbox{#2}{\strut #3}%
+    \endgroup
+  \else
+    #3%
   \fi
 }
 \makeatother
@@ -86,3 +98,8 @@
         \input{section/StateMachine.tex}
     \end{multicols}
 \end{document}
+
+% TODO:
+% rimuovere tabs tra linee numerate e il codice
+% aggiungiere comando per le linee colorate in modo che posso colorarne diverse con colori diversi (cheatsheettemplate)
+% aggiungere al comando titolo animegirl ganbatteneeee!! (cheatsheettemplate)

@@ -1,12 +1,63 @@
 \section{State machine}
-    Le \textbf{Finite State Machine} (FSM) sono circuiti sequenziali che possono essere in uno stato tra un insieme finito di stati. 
-    La transizione tra gli stati avviene in base a segnali di ingresso e può essere condizionata da segnali di clock e reset.
-
-    \begin{minipage}[t]{1\columnwidth}
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        Le \textbf{Finite State Machine} (FSM) sono circuiti sequenziali che possono essere in uno stato tra un insieme finito di stati. 
+        La transizione tra gli stati avviene in base a segnali di ingresso ed é regolata da segnali di clock e reset.
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\columnwidth}
         \vspace{0pt} % <-- ensures top alignment
         \includegraphics[width=\linewidth]{Images/FSMGeneralizzata.png}
     \end{minipage}%
     
+
+% ==================================== FAMIGLIE FSM ====================================
+    %---------- MEDWEJDJEW ----------
+    \subsection{Medwedjew}
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        Composta da una un blocco di logica combinatoria(G) che risolve la funzione desiderata e da un blocco di memoria(Z)
+        che memorizza gli stati.\\ 
+        => Gli Input e lo stato precedente della FSM vengono processati da una logica combinatoria(G)\\
+        => Il risultato della logica viene memorizzato nella Zustandspeicher(Z)\\
+        => L'uscita è esattamente la copia di tutti gli stati memorizzati(s).
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        \includegraphics[width=\linewidth]{Images/Medwedjew.png}
+    \end{minipage}
+
+    %---------- MOORE ----------
+    \subsection{Moore}
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        Come Medwedjew ma con una logica dedicata sul ramo di output(s).\\
+        Tipicamente utile per output più complessi/numerosi rispetto agli stati memorizzati(k $\neq$ n).\\
+        => logica combinatoria aggiuntiva sul ramo d'uscita (F)\\
+        => Più efficiente di Medwedjew per la memorizzazione degli stati
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        \includegraphics[width=\linewidth]{Images/Moore.png}
+    \end{minipage}
+
+    %---------- MEALY ----------
+    \subsection{Mealy}
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        Si tratta della Versione Moore dove la logica sul ramo d'uscita è dipendente anche a segnali provenienti direttamente
+        dagli input della FSM\\
+        => Necessaria se y dipende asincronamente da delle entrate\\
+        => Più complessa, spesso riducibile a Moore
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[t]{0.48\columnwidth}
+        \vspace{0pt} % <-- ensures top alignment
+        \includegraphics[width=\linewidth]{Images/Mealy.png}
+    \end{minipage}
+
 
 % ==================================== CODICE SCHELETRO FSM ====================================
     \subsection{Codice scheletro FSM (f,g,z)}

@@ -16,7 +16,7 @@
     L'entità descrive il componente del progetto.
     In primo luogo l'entità descrive l'interfaccia (schnittstelle) del componente.
     \subsection{entity}
-        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
+        \begin{lstlisting}[language=VHDL]
             entity <entity name> is
                 port (
                     {<port_name> : <mode> <type>;}
@@ -27,7 +27,7 @@
 % =========================================== ARCHITECTURE ======================================
     L'architettura descrive il comportamento del componente, come funziona e come è realizzato.
     \subsection{architecture}
-        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{1,7,8,9}{green}]
+        \begin{lstlisting}[language=VHDL, numberstyle=\tiny\color{gray}\highlightlines{1,7,8,9}{green}]
             architecture <architecture_type> of <entity_name> is
                 [type_declaration]
                     [subtype_declaration]

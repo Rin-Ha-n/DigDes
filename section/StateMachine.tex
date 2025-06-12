@@ -1,8 +1,13 @@
 \section{State machine}
     \begin{minipage}[t]{0.48\columnwidth}
         \vspace{0pt} % <-- ensures top alignment
-        Le \textbf{Finite State Machine} (FSM) sono circuiti sequenziali che possono essere in uno stato tra un insieme finito di stati. 
-        La transizione tra gli stati avviene in base a segnali di ingresso ed é regolata da segnali di clock e reset.
+        Le \textbf{Finite State Machine} (FSM) sono macchine a base di circuiti logici sequenzali.\\
+        Sono in grado quindi 
+        di eseguire operazioni logiche e di poterle memorizzare in modo da consegnare in uscita una funzione
+        che non solo è dipendente dagli Input attuali ma anche (o solo) dallo stato attuale (memorizzato con gli input precedenti).\\
+        Le tre alternative proposte di seguito sono delle possibilità di incapsulamento standardizzato
+        della funzione desiderata, qualunque essa sia.\\
+        - Cit. Alessio Ciceri
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.48\columnwidth}
@@ -18,7 +23,7 @@
         \vspace{0pt} % <-- ensures top alignment
         Composta da una un blocco di logica combinatoria(G) che risolve la funzione desiderata e da un blocco di memoria(Z)
         che memorizza gli stati.\\ 
-        => Gli Input e lo stato precedente della FSM vengono processati da una logica combinatoria(G)\\
+        => Gli Input e lo stato attuale della FSM vengono processati da una logica combinatoria(G)\\
         => Il risultato della logica viene memorizzato nella Zustandspeicher(Z)\\
         => L'uscita è esattamente la copia di tutti gli stati memorizzati(s).
     \end{minipage}%
@@ -60,7 +65,43 @@
 
 
 % ==================================== CODICE SCHELETRO FSM ====================================
-    \subsection{Codice scheletro FSM (f,g,z)}
+    \subsection{Codice scheletro FSM (G,Z,F)}
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
+
+            G: process(present_state, inputs)
+            begin
+                next_state <= de fault_state;
+                    case present_state is
+                        when X_state =>
+                            next_state <= Y_state;
+                        when others =>
+                            next_state <= R_state;
+                end case;
+            end process;
+
+            Z: process(clk)
+            begin
+                if clk(*@'@*)event and clk = '1' then
+                    if reset = '1' then
+                        present_state <= reset_state;
+                    else
+                        present_state <= next_state;
+                    end if;
+                end if;
+            end process;
+
+            F: process(present_state, …)
+            begin
+                oup <= default_value;
+                case present_state is
+                    when X_state =>
+                        oup <= "1001";
+                    when others =>
+                        oup <= "1111";
+                end case;
+            end process;
+
+        \end{lstlisting}
 
 
 % ==================================== CODIFICA DEGLI STATI ====================================

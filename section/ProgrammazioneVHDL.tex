@@ -196,3 +196,48 @@ signal G : integer range 0 to 255; -- intervallo di utilizzo
 signal H : boolean; -- true or false
             \end{lstlisting}
         \end{itemize}
+        
+% ============================================ PARALLEL PROCESS =========================================
+    \subsection{Nebenläufige Signalzuweisungen}
+    
+    % ------------------------------ UNCONDITIONAL -----------------
+        \subsubsection{Unbedingte Signalzuweisung}
+            L'assegnazione dei segnali é incondizionale, é sempre ugale alla stessa cosa.
+            \begin{lstlisting}[language=VHDL]
+y <= '0';
+y <= a and b;
+            \end{lstlisting}
+    
+    % ------------------------------ CONDITIONAL -----------------
+        \subsubsection{Bedingte Signalzuweisung}
+            L'assegnazione dei segnali é eseguita in modo sequenziale, si controlla una condizione e se corretta si assegna il valore, sennó si procede con la prossima condizione.
+            \begin{lstlisting}[language=VHDL]
+y <= '0' when a = '1' else 
+        '1' when a = '0';
+            \end{lstlisting}
+    
+    % ------------------------------ SELECTIVE -----------------
+        \subsubsection{Selektive Signalzuweisung}
+            L'assegnazione dei segnali é eseguita in modo selettivo, viene selezionata il valore in base alla condizione.
+            \begin{lstlisting}[language=VHDL]
+with s seelct y <=
+    '0' when "00",
+    '1' when "01",
+    'Z' when "10",
+    'X' when others;
+            \end{lstlisting}
+    
+    % ------------------------------ AGGREGATE -----------------
+        \subsubsection{Bedingte Signalzuweisung}
+            L'aggregazione dei segnali permette di aggregare segnali individuali in un unico segnale.
+            \begin{lstlisting}[language=VHDL]
+y <= (a, b, '1', '0'); -- Assegnazione implicita
+y <= (0 => '0', 1 => '1', 2 => b, others => a); -- Assegnazione esplicita (<posizione_vettoriale> => <valore>)
+            \end{lstlisting}
+    
+    % ------------------------------ CONCATENATE -----------------
+        \subsubsection{concatenate}
+            La concatenazione dei segnali permette di concatenare segnali in un unico segnale.
+            \begin{lstlisting}[language=VHDL]
+y <= v_1 & v_2;
+            \end{lstlisting}

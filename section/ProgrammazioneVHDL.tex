@@ -13,9 +13,9 @@ use ieee.numeric_std.all; -- Solo per operazioni aritmetiche per vettori
 
 
 % =========================================== ENTITY =========================================
-    L'entità descrive il componente del progetto.
-    In primo luogo l'entità descrive l'interfaccia (schnittstelle) del componente.
-    \subsection{entity}
+    \subsection{entity dichiarazione}
+        L'entità descrive il componente del progetto.
+        In primo luogo l'entità descrive l'interfaccia (schnittstelle) del componente.
         \begin{lstlisting}[language=VHDL]
 entity <entity name> is
     port (
@@ -30,10 +30,10 @@ end entity <entity name>;
         \begin{lstlisting}[language=VHDL, numberstyle=\tiny\color{gray}\highlightlines{1,7,8,9}{green}]
 architecture <architecture_type> of <entity_name> is
     [type_declaration]
+        [component_declaration]
         [subtype_declaration]
         [constant_declaration]
         [signal_declaration]
-        [component_declaration]
 begin
     -- codice di architettura
 end <architecture_type>;
@@ -96,26 +96,10 @@ end component <component_name>;
         \end{lstlisting}
 
 
-% ========================================= PROCESSI =========================================
-    \subsection{Processi}
-        I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile cambia di stato.
-        % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
-        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,7}{green}]
-process ((*@\textcolor{red}{clk, reset}@*))
-    begin
-        if reset = '1' then
-            -- codice di reset
-        elsif rising_edge(clk) then
-            -- codice di clock
-        end if;
-    end process;
-        \end{lstlisting}
-
-
 % ============================================ TIPI =========================================
     \subsection{Tipi}
         \begin{itemize}
-            \item \texttt{<architecture\_type>} = \texttt{Behavioral} \textbar{} \texttt{Structural} \textbar{} \texttt{RTL} \textbar{} \texttt{Dataflow} \textbar{} \texttt{Tb}
+            \item \texttt{<architecture\_type>} = \texttt{Behavioral} \textbar{} \texttt{Structural} \textbar{} \texttt{RTL} \textbar{} \texttt{Dataflow} \textbar{} \texttt{Tb} \textbar{} \texttt{(...)} 
             \item \texttt{<mode>} = \texttt{in} \textbar{} \texttt{out} \textbar{} \texttt{inout}
             \item \texttt{<type>} = \texttt{bit} \textbar{} \texttt{bit\_vector} \textbar{} \texttt{std\_}\textcolor{red}{u}\texttt{logic} \textbar{} \texttt{std\_}\textcolor{red}{u}\texttt{logic\_vector} \textbar{} \texttt{integer} \textbar{} \texttt{boolean}
         \end{itemize}
@@ -124,7 +108,7 @@ process ((*@\textcolor{red}{clk, reset}@*))
 
 % ---------------------------------------- <ARCHITECTURE TYPES> ------------------------------------
         \subsubsection{\texttt{<architecture\_type>}}
-            \textbf{Behavioral}: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica. Alto livello di astrazione.
+            \textbf{Behavioral}: si occupa di descrivere il comportamento del circuito, senza preoccuparsi della struttura fisica. Alto livello di astrazione concetto Wahrheitstabelle.
             \begin{lstlisting}[language=VHDL]
 if rising_edge(clk) then
     if A = '1' then
@@ -139,7 +123,7 @@ U1: and_gate port map (A => A, B => B, Y => Y1);
 U2: or_gate  port map (A =1, B => C, Y => Y);
             \end{lstlisting}
 
-            \textbf{RTL}: si occupa di descrivere il circuito a livello di registro e logica combinatoria, utilizzando registri e porte logiche. Basso livello di astrazione.
+            \textbf{RTL}: si occupa di descrivere il circuito a livello di registro e logica combinatoria, utilizzando registri e porte logiche. Basso livello di astrazione.Concetto Boolsche Ausdrucke.
             \begin{lstlisting}[language=VHDL]
 if rising_edge(clk) then
     reg1 <= A and B;
@@ -160,7 +144,8 @@ assert (Y = expected_value) report "Test failed" severity error;
             \end{lstlisting}
 
 % ---------------------------------------- <TYPES> ------------------------------------
-        \subsubsection{\texttt{<type>}}
+        \subsubsection{\texttt{<type> (dichiarazione: segnali, variabili, ...)}}
+        Nella sintesi del codice, é vietato inizzializzare i segnali nella dichiarazione!
         \begin{itemize}
         \setlength\itemsep{0pt}
             \item \texttt{bit}: rappresenta un singolo bit, con valori \texttt{'0'} e \texttt{'1'}.
@@ -198,11 +183,11 @@ signal H : boolean; -- true or false
         \end{itemize}
         
 % ============================================ PARALLEL PROCESS =========================================
-    \subsection{Nebenläufige Signalzuweisungen}
+    \subsection{Nebenläufige Signalzuweisungen "y<=x"}
     
     % ------------------------------ UNCONDITIONAL -----------------
         \subsubsection{Unbedingte Signalzuweisung}
-            L'assegnazione dei segnali é incondizionale, é sempre ugale alla stessa cosa.
+            L'assegnazione dei segnali é incondizionata, quindi indipendente.
             \begin{lstlisting}[language=VHDL]
 y <= '0';
 y <= a and b;
@@ -241,3 +226,19 @@ y <= (0 => '0', 1 => '1', 2 => b, others => a); -- Assegnazione esplicita (<posi
             \begin{lstlisting}[language=VHDL]
 y <= v_1 & v_2;
             \end{lstlisting}
+
+
+% ========================================= PROCESSI =========================================
+    \subsection{Processi}
+        I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile cambia di stato.
+        % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
+        \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,7}{green}]
+process ((*@\textcolor{red}{clk, reset}@*))
+    begin
+        if reset = '1' then
+            -- codice di reset
+        elsif rising_edge(clk) then
+            -- codice di clock
+        end if;
+    end process;
+        \end{lstlisting}

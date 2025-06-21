@@ -4,7 +4,7 @@
         Le \textbf{Finite State Machine} (FSM) sono macchine a base di circuiti logici sequenzali.\\
         Sono in grado quindi 
         di eseguire operazioni logiche e di poterle memorizzare in modo da consegnare in uscita una funzione
-        che non solo è dipendente dagli Input attuali ma anche (o solo) dallo stato attuale (memorizzato con gli input precedenti).\\
+        che è dipendente dallo stato attuale (memorizzato con gli input precedenti) e opzionalmente anche dagli input attuali(Mealy).\\
         Le tre alternative proposte di seguito sono delle possibilità di incapsulamento standardizzato
         della funzione desiderata, qualunque essa sia.\\
         - Cit. Alessio Ciceri
@@ -35,10 +35,10 @@
 
 % ==================================== FAMIGLIE FSM ====================================
     %---------- MEDWEJDJEW ----------
-    \subsection{Medwedjew}
+    \subsection{Medwedjew (sincrona)}
     \begin{minipage}[t]{0.48\columnwidth}
         \vspace{0pt} % <-- ensures top alignment
-        Composta da una un blocco di logica combinatoria(G) che risolve la funzione desiderata e da un blocco di memoria(Z)
+        Composta da un blocco di logica combinatoria(G) che risolve la funzione desiderata e da un blocco di memoria(Z)
         che memorizza gli stati.\\ 
         => Gli Input e lo stato attuale della FSM vengono processati da una logica combinatoria(G)\\
         => Il risultato della logica viene memorizzato nella Zustandspeicher(Z)\\
@@ -51,7 +51,7 @@
     \end{minipage}
 
     %---------- MOORE ----------
-    \subsection{Moore}
+    \subsection{Moore (sincrona)}
     \begin{minipage}[t]{0.48\columnwidth}
         \vspace{0pt} % <-- ensures top alignment
         Come Medwedjew ma con una logica dedicata sul ramo di output(s).\\
@@ -66,13 +66,13 @@
     \end{minipage}
 
     %---------- MEALY ----------
-    \subsection{Mealy}
+    \subsection{Mealy (sincrona e asincrona in F)}
     \begin{minipage}[t]{0.48\columnwidth}
         \vspace{0pt} % <-- ensures top alignment
         Si tratta della Versione Moore dove la logica sul ramo d'uscita è dipendente anche a segnali provenienti direttamente
         dagli input della FSM\\
         => Necessaria se y dipende asincronamente da delle entrate\\
-        => Più complessa, spesso riducibile a Moore
+        => Più complessa.
     \end{minipage}%
     \hfill
     \begin{minipage}[t]{0.48\columnwidth}

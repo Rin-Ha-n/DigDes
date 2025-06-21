@@ -1,0 +1,141 @@
+\section{notebooklm.tex}
+
+\textbf{\texttt{std\_ulogic} (unresolved)} [8]:
+\begin{itemize}
+    \item Replaces \texttt{bit} type [8].
+    \item \textbf{Allows only one driver per signal}; compiler reports error on multiple drivers [8].
+    \item Suitable for three-state outputs using 'Z' [9].
+    \item Recognises uninitialized ('U'), weak ('H', 'L'), and don't care ('-') states [9, 10].
+    \item Recommended for educational projects for its strictness [11].
+\end{itemize}
+
+\textbf{\texttt{std\_logic} (resolved)} [10]:
+\begin{itemize}
+    \item Removes the 'unresolved' restriction, allowing multiple drivers [10].
+    \item \textbf{Simulator automatically resolves driver conflicts} based on a resolution function (e.g., '0' and '1' resolving to 'X', '0' and 'Z' to '0') [10, 12].
+    \item More prone to hidden errors (compiler won't catch multiple assignments) [13].
+    \item Widely used in practice for its flexibility, especially for physical implementation concerns [14].
+    \item In VHDL 2008, \texttt{std\_logic} is a subtype of \texttt{std\_ulogic} [15].
+\end{itemize}
+\subsubsection{Modelling Bidirectional Buses in VHDL}
+\begin{itemize}[leftmargin=1.5em]
+    \item Uses the \textbf{\texttt{inout}} port mode.
+    \item Writing to the bus: \verb|bus_i_o <= out_i when enable = '1' else (others => 'Z');|
+    \item Reading from the bus: \verb|in_i <= bus_i_o;|
+\end{itemize}
+
+\subsection{VHDL Key Concept IV: Event-Based Concept for Temporal Representation in Simulations}
+
+\subsubsection{Simulation as a Central Step}
+\begin{itemize}[leftmargin=1.5em]
+    \item Crucial for design verification.
+    \item \textbf{Reusable Test-Benches} help with regression testing.
+    \item \textbf{Later error detection is more costly.}
+\end{itemize}
+
+\subsubsection{Modelling Temporal Behaviour}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Event Queue:} Simulators use an event queue to process events in order.
+    \item \textbf{Delta-Time Model:}
+    \begin{itemize}
+        \item Functional simulation model.
+        \item Infinitesimal time delay (\textit{delta cycle}).
+        \item Ensures cause-effect separation in waveform views.
+    \end{itemize}
+    \item \textbf{Transport Delay:}
+    \begin{itemize}
+        \item Models real delay.
+        \item Syntax: \verb|B <= transport A after tp;|
+        \item \textbf{All pulses propagate}.
+    \end{itemize}
+    \item \textbf{Inertial Delay (default):}
+    \begin{itemize}
+        \item Models physical filtering of glitches.
+        \item Syntax: \verb|B <= A after tp;|
+        \item \textbf{Short pulses filtered out}.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Simulation Setup (Test-Bench)}
+\begin{itemize}[leftmargin=1.5em]
+    \item Not synthesizable.
+    \item \textbf{Device Under Test (DUT)}: Component under test.
+    \item \textbf{Stimulus Generator}: Drives input signals.
+    \item \textbf{Response Monitor}: Verifies DUT output.
+    \item \textbf{\texttt{ASSERT}} Statement:
+    \begin{itemize}
+        \item Syntax: \verb|assert (cond) report "msg" severity level;|
+        \item Levels: \texttt{note}, \texttt{warning}, \texttt{error}, \texttt{failure}.
+    \end{itemize}
+\end{itemize}
+
+\subsection{VHDL Key Concept VIII: Arithmetic and Data Types}
+
+\subsubsection{Arithmetic Operations}
+\begin{itemize}[leftmargin=1.5em]
+    \item Problem: \texttt{bit\_vector}, \texttt{std\_logic\_vector} don't support arithmetic.
+    \item Solution: Use \texttt{ieee.numeric\_std}.
+    \item Defines:
+    \begin{itemize}
+        \item \textbf{\texttt{signed}}: For signed numbers.
+        \item \textbf{\texttt{unsigned}}: For unsigned numbers.
+    \end{itemize}
+    \item Functions: \texttt{+}, \texttt{-}, \texttt{}, \texttt{abs}, \texttt{/}, \texttt{mod}, \texttt{rem}, \texttt{**} (limited).
+    \item Prefer \texttt{numeric\_std} over older \texttt{std\_logic\_signed} or \texttt{unsigned}.
+\end{itemize}
+
+\subsubsection{Data Types}
+\begin{itemize}[leftmargin=1.5em]
+    \item Strong typing enforces correctness.
+    \item \textbf{Scalar Types:}
+    \begin{itemize}
+        \item Discrete: \texttt{integer}, \texttt{boolean}, \texttt{bit}, \texttt{std\_ulogic}, etc.
+        \item Physical: \texttt{time}, etc.
+    \end{itemize}
+    \item \textbf{Composite Types:}
+    \begin{itemize}
+        \item Arrays: \texttt{std\_logic\_vector}, etc.
+        \item Records: Heterogeneous collections.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Type Conversion}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{\texttt{resize}}: For \texttt{signed}/\texttt{unsigned} vectors.
+    \item \textbf{Type Casting:}
+    \begin{itemize}
+        \item Syntax: \verb|target_type(signal)|
+        \item Example: \verb|o_int <= unsigned(a) + unsigned(b);|
+    \end{itemize}
+    \item \textbf{Type Conversion Functions:}
+    \begin{itemize}
+        \item Between different base types.
+        \item Examples: \verb|to_unsigned(int, len)|, \verb|to_integer(vec)|
+    \end{itemize}
+\end{itemize}
+
+\subsection{VHDL Key Concept IX: Parametrisability of Models}
+
+\subsubsection{Reusability}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Essential for efficient design}.
+    \item General models can be adapted via parameters.
+\end{itemize}
+
+\subsubsection{Using \texttt{generic}}
+\begin{itemize}[leftmargin=1.5em]
+    \item Allows time-invariant parameters in \texttt{entity}.
+    \item Example: \verb|generic(max_count: integer := 127);|
+    \item Used for widths, delays, strengths.
+    \item Assigned via \texttt{generic map}:
+    \begin{itemize}
+        \item \verb|instance_name : component_name generic map (...) port map (...);|
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Timing of Parameter Fixation}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Design-time}: via \texttt{constant}.
+    \item \textbf{Compile-time}: via \texttt{generic}.
+    \item \textbf{Runtime}: via \texttt{signal} assignments.
+\end{itemize}

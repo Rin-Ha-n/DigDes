@@ -1,0 +1,30 @@
+\section{Examples}
+% ==================== FILP FLOP ========================
+    \subsection{Flip flop}
+    \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}]
+entity d_ff_rst is
+    port(
+        clk : in bit;
+        rst : in bit;
+        d : in bit;
+        q : out bit
+        );
+end d_ff_rst;
+    
+architecture behavioral of d_ff_rst is
+begin
+    register : process(clk, rst)
+            -- d fehlt in Sens.list
+    begin   -- Nur clk und Reset
+            -- aktivieren Prozess
+        if (rst = '1') then
+            -- Asynchroner Reset
+            q <= '0';
+            -- wird zuerst abgearbeitet
+        elsif (clk(*@'@*)event and clk = '1') then (*@\setlength{\fboxsep}{1pt}\colorbox{yellow}{\strut\textbf{\textcolor[rgb]{0.0,0.4,0.2}{-- Sintassi per la detezione del fianco salita del clock}}}@*)
+            q <= d; -- Synchroner Teil
+        end if; -- Kein abschliessendes
+        -- else: in allen anderen
+    end process; -- Fällen wird gespeichert.
+end behavioral;
+    \end{lstlisting}

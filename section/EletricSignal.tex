@@ -1,0 +1,36 @@
+\section{Sostituzione discreta per segnali elettrici}
+
+
+% ==================================== ELETRIC SIGNALS ====================================
+\subsection{Segnali elettrici}
+
+\begin{center}
+    \begin{adjustbox}{max width=\columnwidth}
+        \begin{tabular}{|l|l|p{6cm}|c|}
+            \hline
+            \multicolumn{1}{|c|}{\shortstack{\textbf{Logik}\\\textbf{-wert}}} & 
+            \multicolumn{1}{c|}{\textbf{Bedeutung}} & 
+            \multicolumn{1}{c|}{\textbf{Verwendung}} & 
+            \multicolumn{1}{c|}{\shortstack{\textbf{Für Logik}\\\textbf{Synthese}}} \\
+                \hline
+                \verb|'U'| & Uninitialized   & Signal ist im Simulator noch nicht initialisiert. In der Hardware ist das Signal unbekannt. Typisch für nicht initialisierte Speicherstelle nach Start-up. & Nein \\
+                \hline
+                \verb|'X'| & Undefined       & Signal ist dem Simulator unbekannt. Typisch für Treiberkonflikte, d.h. ein Signal wird von mehr als einer Quelle getrieben. In der Welt der Hardware kommt dies vor allem bei Buskonflikten vor. & Nein \\
+                \hline
+                \verb|'0'| & Strong zero     & Low Pegel eines Standardausganges. Regelfall für Hardware „0“ Pegel. & Ja \\
+                \hline
+                \verb|'1'| & Strong one      & High Pegel eines Standardausganges. Regelfall für Hardware „1“ Pegel. & Ja \\
+                \hline
+                \verb|'Z'| & High Impedance  & Signalausgang von Leitung entkoppelt. Typisch für Hochimpedanz Ausgang eines Three-State Treibers bei bidirektionalen Bussen. & Ja \\
+                \hline
+                \verb|'L'| & Weak zero       & Low Pegel eines schwachen Treiberausgangs. Typisch für ein Signal, das mit einem pull-down Widerstand auf Low Potenzial gezogen wird. & Nein \\
+                \hline
+                \verb|'H'| & Weak one        & High Pegel eines schwachen Treiberausgangs. Typisch für ein Signal, das mit einem pull-up Widerstand auf High Potenzial gezogen wird. & Nein \\
+                \hline
+                \verb|'W'| & Weak unknown    & Simulator erkennt Treiberkonflikt. Dieser Fall ist analog zu \verb|'X'| mit dem Unterschied, dass der Treiberkonflikt hier durch schwache Treiber verursacht wird. & Nein \\
+                \hline
+                \verb|'-'| & Don’t Care      & Logikzustand des Ausgangssignals ist bedeutungslos. Existiert nur in der Schaltungssynthese und wird für Logikminimierung gebraucht. & Nein \\
+                \hline
+        \end{tabular}
+    \end{adjustbox}
+\end{center}

@@ -39,12 +39,13 @@
   sensitive=true,
   morecomment=[l]--,
   morestring=[b]",
-  morestring=[b]'
+  morestring=[b]',
+  morekeywords=[2]{bit,bits,bit_vector,std_logic,std_logic_vector,integer,natural,signed,unsigned}
 }
-
 \lstset{
   basicstyle=\ttfamily\footnotesize,
   keywordstyle=\color{violet}\bfseries,
+  keywordstyle=[2]\color{yellow!80!black}\bfseries,
   commentstyle=\color{OSTDarkGreen}\itshape,
   stringstyle=\color{orange},
   numbers=left,
@@ -95,6 +96,9 @@
         \input{section/Introduzione.tex}
         \input{section/ProgrammazioneVHDL.tex}
         \input{section/StateMachine.tex}
+        \input{section/EletricSignal.tex}
+        \input{section/Examples.tex}
+        \input{section/notebooklm.tex}
     \end{multicols}
 \end{document}
 

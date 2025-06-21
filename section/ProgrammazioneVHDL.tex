@@ -19,7 +19,7 @@ use ieee.numeric_std.all; -- Solo per operazioni aritmetiche per vettori
         \begin{lstlisting}[language=VHDL]
 entity <entity name> is
     port (
-        {<port_name> : <mode> <type>;}
+        {<port_name> : <mode> <type>;} -- <mode> = in | out | inout
     );
 end entity <entity name>;
         \end{lstlisting}
@@ -39,6 +39,18 @@ begin
 end <architecture_type>;
         \end{lstlisting}
 
+
+% ========================================= COMPONENTI =========================================
+    \subsection{component dichiarazione}
+        I componenti sono utilizzati per definire le porte di un'entità, in modo da poterla utilizzare in altre entità.
+        \begin{lstlisting}[language=VHDL]
+component <component_name>
+    port (
+        {<port_name> : <mode> <type>;}
+    );
+end component <component_name>;
+        \end{lstlisting}
+
         
 % =========================================== PORT MAPPING ======================================
         \subsection{Port mapping}
@@ -53,8 +65,9 @@ U1: entity_name
 
 % ---------------------------------------- EXAMPLE ------------------------------------
             \subsubsection{Esempio}
-            \begin{lstlisting}[language=VHDL, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,19,20,21,22,23,24}{yellow}, numberstyle=\tiny\color{gray}\highlightlines{10,11,12,13,26,27}{green}]
+            \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,19,20,21,22,23,24}{yellow}, numberstyle=\tiny\color{gray}\highlightlines{10,11,12,13,26,27}{green}]
 architecture structural of half_adder is
+    -- dichiarazione del componente xor2
     component xor2
         port (
             in1, in2 : in bit;
@@ -62,6 +75,7 @@ architecture structural of half_adder is
         );
     end component;
 
+    -- dichiarazione del componente and2
     component and2
         port (
             in1, in2 : in bit;
@@ -71,30 +85,25 @@ architecture structural of half_adder is
 
     begin
     -- instantiation of ocmponents XOR2 and AND2
-    -- Mappatura esplicita
+    (*@\setlength{\fboxsep}{1pt}\colorbox{yellow}{\strut\textbf{\textcolor[rgb]{0.0,0.4,0.2}{-- Mappatura esplicita}}}@*)
     U1 : xor2
         port map (
             in1 => q,
             in2 => p,
             oup  => s
         );
-    -- Mappatura implicita
+    (*@\setlength{\fboxsep}{1pt}\colorbox{yellow}{\strut\textbf{\textcolor[rgb]{0.0,0.4,0.2}{-- Mappatura implicita}}}@*)
     U2 : and2
         port map (p, q, s) -- L'ordine delle porte segue quello della dichiarazione del componente!
             \end{lstlisting}
 
-
-% ========================================= COMPONENTI =========================================
-    \subsection{component}
-        I componenti sono utilizzati per definire le porte di un'entità, in modo da poterla utilizzare in altre entità.
-        \begin{lstlisting}[language=VHDL]
-component <component_name> is
-    port (
-        {<port_name> : <mode> <type>;}
-    );
-end component <component_name>;
-        \end{lstlisting}
-
+        
+% =========================================== HIERARCHIC LEVELS ======================================
+        \subsection{Hierarchie Level}
+            \begin{minipage}[t]{\columnwidth}
+            \vspace{0pt}  %<-- ensures top alignment
+                \includegraphics[width=\linewidth]{Images/HierarchienLevel.png}
+            \end{minipage}
 
 % ============================================ TIPI =========================================
     \subsection{Tipi}
@@ -145,7 +154,7 @@ assert (Y = expected_value) report "Test failed" severity error;
 
 % ---------------------------------------- <TYPES> ------------------------------------
         \subsubsection{\texttt{<type> (dichiarazione: segnali, variabili, ...)}}
-        Nella sintesi del codice, é vietato inizzializzare i segnali nella dichiarazione!
+        Come vanno dichiarati tutti i segnali utilizzati internamente all'archittetura.\\Nella sintesi del codice, é vietato inizzializzare i segnali nella dichiarazione!
         \begin{itemize}
         \setlength\itemsep{0pt}
             \item \texttt{bit}: rappresenta un singolo bit, con valori \texttt{'0'} e \texttt{'1'}.
@@ -182,8 +191,13 @@ signal H : boolean; -- true or false
             \end{lstlisting}
         \end{itemize}
         
-% ============================================ PARALLEL PROCESS =========================================
+% ============================================ PARALLEL SIGNAL =========================================
     \subsection{Nebenläufige Signalzuweisungen "y<=x"}
+        \subsubsection{Definizione dei segnali}
+            \begin{lstlisting}[language=VHDL]
+singal <signal_name> :{,<singal_name>} : <type>
+[:= inizianol_value]; -- inizial_value é opzionale
+            \end{lstlisting}
     
     % ------------------------------ UNCONDITIONAL -----------------
         \subsubsection{Unbedingte Signalzuweisung}
@@ -205,15 +219,15 @@ y <= '0' when a = '1' else
         \subsubsection{Selektive Signalzuweisung}
             L'assegnazione dei segnali é eseguita in modo selettivo, viene selezionata il valore in base alla condizione.
             \begin{lstlisting}[language=VHDL]
-with s seelct y <=
-    '0' when "00",
-    '1' when "01",
-    'Z' when "10",
-    'X' when others;
+with s select y <=
+    '0' when "00", -- quando s = "00" y <= '0'
+    '1' when "01", -- quando s = "01" y <= '1'
+    'Z' when "10", -- quando s = "10" y <= 'Z'
+    'X' when others; -- quando s =  altro y <= 'X'
             \end{lstlisting}
     
     % ------------------------------ AGGREGATE -----------------
-        \subsubsection{Bedingte Signalzuweisung}
+        \subsubsection{aggregate}
             L'aggregazione dei segnali permette di aggregare segnali individuali in un unico segnale.
             \begin{lstlisting}[language=VHDL]
 y <= (a, b, '1', '0'); -- Assegnazione implicita
@@ -229,16 +243,62 @@ y <= v_1 & v_2;
 
 
 % ========================================= PROCESSI =========================================
-    \subsection{Processi}
-        I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile cambia di stato.
-        % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
+    \subsection{Nebenläufige Prozesse}
+        I processi sono "Nebenläufige" di conseguenza iniziano ad essere eseguiti in concorrenza. Ma all'interno il codice viene eseguito normalmente (istruzioni sequenziali, sequenzialmente. istruzioni parallele in modo parallelo).\\
+        I processi sono sezioni di codice che vengono eseguite ogni volta che un \textcolor{red}{Segnale sensibile} nella lista sensibile (Sensitivitätliste) cambia di stato.         % Inizia un codice blocco, con colori VHDL (vedi definizione in DigDes.tex), escape inside is used to use external commandstf
         \begin{lstlisting}[language=VHDL, escapeinside={(*@}{@*)}, numberstyle=\tiny\color{gray}\highlightlines{3,4,5,6,7}{green}]
 process ((*@\textcolor{red}{clk, reset}@*))
     begin
         if reset = '1' then
-            -- codice di reset
+            -- inserisci il codice da eseguire in caso di reset
         elsif rising_edge(clk) then
-            -- codice di clock
+            -- inserisci il codice da eseguire ad ogni fronte di salita del clock
         end if;
     end process;
+        \end{lstlisting}
+    
+    % ------------------------------ SEQUENZIELLE ANWEISUNGEN IM PROZESSE -----------------
+        \subsubsection{sequenzielle Anweisungen im Prozesse}
+            Le istruzioni che vengono eseguite strettamente sequenzialmente all'interno di un processo sono:
+            \begin{lstlisting}[language=VHDL]
+-- struttura if else:
+if condition_a then
+    {sequential statements}
+elsif condition_b then
+    {sequential statements}
+else
+    {sequential statements}
+end if;
+
+
+-- struttura case when:
+case expression is
+    when choice_a => {sequential statements}
+    when choice_b => {sequential statements}
+    when others => {sequential statements}
+end case;
+            \end{lstlisting}
+    
+    % ------------------------------ Eigenschaften nebenläufiger Prozesse -----------------
+        \subsubsection{Eigenschaften nebenläufiger Prozesse}
+        Le proprietà più importanti, ovvero le estensioni rispetto alle assegnazioni di segnale, possono essere così riassunte:
+            \begin{itemize}
+                \item I processi possono assegnare due o più segnali contemporaneamente.
+                \item L'elaborazione delle informazioni per l'assegnazione dei segnali avviene in una sequenza di comandi che vengono eseguiti uno dopo l'altro (procedurale).
+                \item I processi permettono l'uso di variabili per la memorizzazione temporanea dei valori dei segnali.
+                \item Grazie all'uso delle liste di sensibilità è garantito un miglior controllo sulle condizioni di esecuzione della parte di codice.
+            \end{itemize}
+    
+    % ------------------------------ Variablen in nebenläufigen Prozessen -----------------
+        \subsubsection{Variablen in nebenläufigen Prozessen}
+        Le variabili offrono due opzioni utili nei processi:
+            \begin{itemize}
+                \item Accesso a un valore aggiornato all'interno del processo stesso.
+                \item Preparazione di un'espressione di controllo, ad esempio per un "case when".
+            \end{itemize}
+            Le variabili sono dichiarate all'interno dei processi e sono visibili esclusivamente all'interno degli stessi.
+            Il valore assegnato può essere letto immediatamente.\\
+            L'assegnazione di valore a una variabile avviene con l'operatore :=, a differenza dell'assegnazione ai segnali che utilizza <=.
+        \begin{lstlisting}[language=VHDL]
+variable <var_name> {,var_name}: <type> [:= expression];
         \end{lstlisting}
